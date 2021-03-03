@@ -19,6 +19,7 @@ jobs:
         run: |
           echo "I am in step1"
       - name: step2
+        if: github.pull_request.merged == 'true'
         run: |
           echo "I am entered into step2"
           echo $github.event_name
