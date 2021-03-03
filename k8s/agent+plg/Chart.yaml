@@ -1,0 +1,14 @@
+apiVersion: v1
+name: agent+plg
+description: The Agent Plugin Helm chart example for Kubernet
+
+type: application
+
+version: <AGENT_PLG_CHART_REV>
+
+appVersion: v1.1beta
+
+dependencies:
+- name: agent+helper
+  version: <AGENT_HELPER_CHART_REV>
+  repository: "file://./../agent+helper"

@@ -1,0 +1,45 @@
+{{- $agentRev := .Values.global.agtK8Config.agentRev -}}
+{{- $binaryURL := .Values.global.agtK8Config.binaryURL -}}
+{{- $ownerHash := .Values.global.agtK8Config.ownerHash -}}
+{{- $contrName := "agt-contr" -}}
+{{- $releaseTag := .Values.global.agtK8Config.releaseTag -}}
+{{- $securityContext := .Values.securityContext -}}
+{{- $portName := .Values.agtK8Config.portName -}}
+{{- $healthPortName := .Values.agtK8Config.healthPortName -}}
+{{- $launchCmd := "[]" -}}
+{{- $podResource := include "agent.podResource" . -}}
+{{- $agtConfig := .Values.global.agtConfig -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "agent.fullname" . }}
+  labels:
+    {{- include "agent.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.global.agtK8Config.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "agent.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "agent.selectorLabels" . | nindent 8 }}
+    spec:
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      containers:
+        {{- include "agent.container" (merge (dict "isPlugin" false "contrName" $contrName "releaseTag" $releaseTag "launchCmd" $launchCmd "securityContext" $securityContext "portName" $portName "healthPortName" $healthPortName "podResource" $podResource "agentRev" $agentRev "binaryURL" $binaryURL "ownerHash" $ownerHash "agtConfig" $agtConfig) .) | nindent 8}}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}

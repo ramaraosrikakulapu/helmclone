@@ -1,0 +1,6 @@
+dependencies:
+- name: agent+helper
+  repository: file://./../agent+helper
+  version: 0.1.0
+digest: sha256:d463e89d5974cb3ed1ecf544ad145dc5214eadea53262bbc260a8e6f4c558007
+generated: "2021-02-28T17:54:01.53655-05:00"
