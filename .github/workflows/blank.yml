@@ -21,5 +21,5 @@ jobs:
       - name: step2
         run: |
           echo "I am entered into step2"
-          echo github.event_name
-          echo github.event.action
+          echo $github.event_name
+          echo $github.event.action
