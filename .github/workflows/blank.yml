@@ -11,15 +11,14 @@ on:
 
 jobs:
   build:
+    if: github.event.pull_request.merged == 'true'
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
       - name: step1
         run: |
           echo "I am in step1"
       - name: step2
-        if: github.event.pull_request.merged == 'true'
         run: |
           echo "I am entered into step2"
           echo $github.event_name
