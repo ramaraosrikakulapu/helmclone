@@ -19,7 +19,6 @@ jobs:
         run: |
           echo "I am in step1"
       - name: step2
-        if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
         run: |
           echo "I am entered into step2"
           echo github.event_name
