@@ -1,17 +1,14 @@
-
 name: CI
 
 on:
-  push:
-    branches: [ main ]
   pull_request:
     branches: [ main ]
+    types: [closed, opened, synchronize]
 
   workflow_dispatch:
 
 jobs:
   build:
-    if: github.event.pull_request.merged == false
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -19,6 +16,7 @@ jobs:
         run: |
           echo "I am in step1"
       - name: step2
+        if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
         run: |
           echo "I am entered into step2"
           echo $github.event_name
